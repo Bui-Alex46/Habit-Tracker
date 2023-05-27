@@ -4,6 +4,8 @@ import {addDoc, collection} from "@firebase/firestore"
 const Home = () => {
     // Immutable object, change later to useState
     const messageRef = useRef();
+
+    // Creating a new collection (Kind of like a table)
     const ref = collection(firestore, "messages")
 
 
@@ -12,7 +14,7 @@ const Home = () => {
         e.preventDefault();
         console.log(messageRef.current.value);
 
-
+        // Saves data as "message"
         let data = {
             message: messageRef.current.value
         }
@@ -21,7 +23,7 @@ const Home = () => {
         try {
             addDoc(ref,data)
         } catch (error) {
-            console.error(error)
+            console.error(error.message)
         }
 
     }

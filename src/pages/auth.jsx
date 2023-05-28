@@ -1,8 +1,11 @@
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {createUserWithEmailAndPassword, onAuthStateChanged, 
         signInWithEmailAndPassword, signOut,} from 'firebase/auth';
 import {auth} from '../firebase';
 import { useNavigate } from 'react-router-dom';
+import {firestore} from "../firebase"
+import { setDoc, doc, collection, addDoc} from "@firebase/firestore"
+
 
 const Authentication = () => {
     const [registerEmail, setRegisterEmail] = useState("")
@@ -25,6 +28,17 @@ const Authentication = () => {
             const user = await createUserWithEmailAndPassword(
                 auth, registerEmail, registerPassword);
             console.log(user)
+
+
+
+            // Create a new user subcollection
+            const userRef = collection(firestore, "users")
+            const userDocRef = doc(userRef, user.user.uid)
+            let userData = {
+                email: registerEmail,
+                id : user.user.uid,
+            }
+            await setDoc(userDocRef, userData)
         }
         catch(error){
             console.log(error.message)

@@ -1,0 +1,17 @@
+.calendar-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: black;
+}
+.calendar-header{
+    display:flex;
+}
+.calendar-table{
+    /* Evenly space out elements */
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 100%;
+
+}

@@ -3,6 +3,7 @@ import {firestore} from "../firebase"
 import {addDoc, collection} from "@firebase/firestore"
 import Modal from 'react-modal';
 import './habit.css';
+import Calendar from './calendar'
 
 
 const Habit = () => {
@@ -57,7 +58,9 @@ const Habit = () => {
             <Modal isOpen = {selectedHabit !== null} onRequestClose = {clodeModal} contentLabel = "Habit Modal">
                 {selectedHabit && <h1>{selectedHabit}</h1>}
                 <div> Did you {selectedHabit} today?</div>
+                <Calendar />
             </Modal>
+            
         </div>
     );
 };

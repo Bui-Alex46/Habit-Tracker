@@ -1,6 +1,7 @@
 
 import { initializeApp } from "firebase/app";
 import {getFirestore} from "@firebase/firestore";
+import {getAuth} from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyC_v4mDl86WK7CzyfMIpSXQo7dMWKT1dmg",
   authDomain: "habittracker-3d266.firebaseapp.com",
@@ -13,3 +14,4 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const firestore = getFirestore(app);
+export const auth = getAuth(app);

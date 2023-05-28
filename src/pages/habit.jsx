@@ -54,7 +54,7 @@ const Habit = () => {
                     <li className = 'newHabit' key = {index} onClick = {() => openModal(habit)}>{habit}</li>
                 ))}
             </ul>
-
+            {/* Modal displaying a calendar when a new habit created */}
             <Modal isOpen = {selectedHabit !== null} onRequestClose = {clodeModal} contentLabel = "Habit Modal">
                 {selectedHabit && <h1>{selectedHabit}</h1>}
                 <div> Did you {selectedHabit} today?</div>

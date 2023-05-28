@@ -1,18 +1,23 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {createUserWithEmailAndPassword, onAuthStateChanged, 
         signInWithEmailAndPassword, signOut,} from 'firebase/auth';
 import {auth} from '../firebase';
 import { useNavigate } from 'react-router-dom';
+
 const Authentication = () => {
     const [registerEmail, setRegisterEmail] = useState("")
     const [registerPassword, setRegisterPassword] = useState("")
     const [loginEmail, setloginEmail] = useState("")
     const [loginPassword, setloginPassword] = useState("")
-    const navigate = useNavigate()
+    
     const [user, setUser] = useState({});
-    onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
-    })
+    const navigate = useNavigate();
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+        });
+        return unsubscribe;
+    }, []);
     
     const register = async () => {
         // Returning a promise
@@ -30,9 +35,7 @@ const Authentication = () => {
             const user = await signInWithEmailAndPassword(
                 auth, loginEmail, loginPassword);
             console.log(user)
-        
             navigate('/habit')
-
         }
         
         catch(error){
@@ -54,8 +57,8 @@ const Authentication = () => {
             {/* User Login */}
             <div>
                 <h3> Login</h3>
-                <input placeholder="Email" type="email" onChange = {(e) => setloginEmail(e.target.value)}></input>
-                <input placeholder="Password" type="password" onChange = {(e) => setloginPassword(e.target.value)}></input>
+                <input placeholder="Email" onChange = {(e) => setloginEmail(e.target.value)}></input>
+                <input placeholder="Password" onChange = {(e) => setloginPassword(e.target.value)}></input>
                 <button onClick = {login}>Login</button>
             </div>
 

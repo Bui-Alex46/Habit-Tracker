@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className = "App">
-      <ul>
+      <ul className = "navBar">
         <li><Link to = "/home"> Home</Link></li>
         <li> <Link to = "/habit"> Habit</Link></li>
         <li> <Link to = "/"> Authentication</Link></li>

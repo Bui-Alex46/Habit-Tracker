@@ -4,7 +4,7 @@ import {createUserWithEmailAndPassword, onAuthStateChanged,
 import {auth} from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import {firestore} from "../firebase"
-import { setDoc, doc, collection, addDoc} from "@firebase/firestore"
+import { setDoc, doc, collection,} from "@firebase/firestore"
 
 
 const Authentication = () => {

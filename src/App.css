@@ -1,6 +1,20 @@
 .App {
   text-align: center;
- 
+  background-color: rgb(30, 27, 27);
+  
 }
 
 
+.navBar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 50%;
+  /* Get rid of bullet points */
+  list-style-type: none;
+  /* center items in the middle of page */
+  margin: 0 auto;
+  font-size: 20px;
+  /* Get rid of underline link*/
+  text-decoration: none;
+}

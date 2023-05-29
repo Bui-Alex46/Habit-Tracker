@@ -62,6 +62,8 @@ const Habit = () => {
         setSelectedHabit(null)
     }
 
+    // Create a function to remove a habit
+
     return(
         <div className = 'Habit_background'>
             <form className = "submitForm" onSubmit = {onSubmitForm}>
@@ -79,7 +81,11 @@ const Habit = () => {
             <Modal isOpen = {selectedHabit !== null} onRequestClose = {clodeModal} contentLabel = "Habit Modal">
                 {selectedHabit && <h1>{selectedHabit}</h1>}
                 <div> Did you {selectedHabit} today?</div>
-                <Calendar />
+                <button>Remove Habit</button>
+                <div className="calendar-wrapper">
+                    <Calendar />
+                </div>
+
             </Modal>
             
         </div>

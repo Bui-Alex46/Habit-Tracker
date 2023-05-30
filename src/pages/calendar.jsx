@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import "./calendar.css";
 
 const Calendar = () => {
   const [date, setDate] = useState(new Date());
+  const [selectedCell, setSelectedCell] = useState(null);
+  const [cellState, setCellState] = useState({});
 
   const months = [
     "January", "February", "March", "April",
@@ -20,6 +23,26 @@ const Calendar = () => {
 
   const handleNextMonth = () => {
     setDate(new Date(date.getFullYear(), date.getMonth() + 1, 1));
+  };
+
+  const handleCellClick = (day) => {
+    setSelectedCell(day);
+  };
+
+  const handleYesClick = () => {
+    setCellState((prevCellState) => ({
+      ...prevCellState,
+      [selectedCell]: "yes"
+    }));
+    setSelectedCell(null);
+  };
+
+  const handleNoClick = () => {
+    setCellState((prevCellState) => ({
+      ...prevCellState,
+      [selectedCell]: "no"
+    }));
+    setSelectedCell(null);
   };
 
   return (
@@ -49,10 +72,26 @@ const Calendar = () => {
               {[...Array(7)].map((_, dayIndex) => {
                 const day = weekIndex * 7 + dayIndex - firstDayOfMonth + 1;
                 const isCurrentMonth = day >= 1 && day <= daysInMonth;
+                const cellKey = `day-${weekIndex}-${dayIndex}`;
+
+                let cellClass = "day-cell";
+                if (!isCurrentMonth) {
+                  cellClass += " other-month";
+                } else if (selectedCell === day) {
+                  cellClass += " selected";
+                }
+
+                if (cellState[day] === "yes") {
+                  cellClass += " filled yes";
+                } else if (cellState[day] === "no") {
+                  cellClass += " filled no";
+                }
+
                 return (
                   <td
-                    key={`day-${weekIndex}-${dayIndex}`}
-                    className={`day-cell ${isCurrentMonth ? 'current-month' : 'other-month'}`}
+                    key={cellKey}
+                    className={cellClass}
+                    onClick={() => handleCellClick(day)}
                   >
                     {isCurrentMonth && day}
                   </td>
@@ -62,6 +101,13 @@ const Calendar = () => {
           ))}
         </tbody>
       </table>
+      {selectedCell !== null && (
+        <div className="button-wrapper">
+          <h2>Did you do your habit this day?</h2>
+          <button onClick={handleYesClick}>Yes</button>
+          <button onClick={handleNoClick}>No</button>
+        </div>
+      )}
     </div>
   );
 };

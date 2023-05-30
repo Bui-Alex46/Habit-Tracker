@@ -1,0 +1,74 @@
+.auth-background{
+    background-color: rgb(30, 27, 27);
+    height: 100vh;
+    justify-content: center;
+    padding-top: 20px;
+    align-items:center;
+}
+.register{
+    display: flex;
+    color: rgb(238, 237, 237);
+    font-style: italic;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.register-input{
+    display: flex;
+    margin-bottom: 20px;
+    width: 20%;
+    height: 30px;
+    justify-content: center;
+    text-align: center;
+}
+.register button{
+    color: white;
+    background: green;
+}
+.register button:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+.login{
+    display: flex;
+    color: rgb(238, 237, 237);
+    font-style: italic;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.login-input{
+    display: flex;
+    margin-bottom: 20px;
+    width: 20%;
+    height: 30px;
+    justify-content: center;
+    text-align: center;
+}
+.login button{
+    color: white;
+    background: green;
+}
+.login button:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+.current-user{
+    display: flex;
+    color: rgb(238, 237, 237);
+    font-style: italic;
+    justify-content: center;
+}
+.logout{
+    color: white;
+    background-color: red;
+    border-radius: 10px;
+    height: 30px;
+    justify-content: baseline;
+    font-size: 15px;
+    font-weight: bold;
+}
+.logout:hover{
+    cursor: pointer;
+    opacity: calc(1 - 0.5);
+}

@@ -1,3 +1,15 @@
 .calendar-table{
     width:600px;
 }
+.day-cell.selected {
+    background-color: yellow;
+  }
+  
+  .day-cell.filled.yes {
+    background-color: green;
+  }
+  
+  .day-cell.filled.no {
+    background-color: red;
+  }
+  

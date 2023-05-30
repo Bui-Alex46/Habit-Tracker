@@ -5,6 +5,7 @@ import {auth} from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import {firestore} from "../firebase"
 import { setDoc, doc, collection,} from "@firebase/firestore"
+import './auth.css';
 
 
 const Authentication = () => {
@@ -60,26 +61,26 @@ const Authentication = () => {
         await signOut(auth);
     };
     return (
-        <div>
+        <div className='auth-background'>
             {/* Create user signup */}
-            <div>
-                <h3> Register User</h3>
-                <input placeholder="Email" onChange = {(e) => setRegisterEmail(e.target.value)}></input>
-                <input placeholder="Password" onChange = {(e) => setRegisterPassword(e.target.value)}></input>
-                <button onClick = {register}>Register</button>
+            <div className = "register">
+                <h3 > Register</h3>
+                <input className = "register-input" placeholder="Email" onChange = {(e) => setRegisterEmail(e.target.value)}></input>
+                <input className = "register-input" placeholder="Password" onChange = {(e) => setRegisterPassword(e.target.value)}></input>
+                <button  className = "register-input"onClick = {register}>Create an account</button>
             </div>
             {/* User Login */}
-            <div>
+            <div className = "login">
                 <h3> Login</h3>
-                <input placeholder="Email" onChange = {(e) => setloginEmail(e.target.value)}></input>
-                <input placeholder="Password" onChange = {(e) => setloginPassword(e.target.value)}></input>
-                <button onClick = {login}>Login</button>
+                <input className = "login-input" placeholder="Email" onChange = {(e) => setloginEmail(e.target.value)}></input>
+                <input className = "login-input" placeholder="Password" onChange = {(e) => setloginPassword(e.target.value)}></input>
+                <button className = "login-input" onClick = {login}>Login</button>
             </div>
 
             {/* Log out */}
-            <h4> User Logged In: </h4>
-            {user?.email}
-            <button onClick = {logout}>Logout</button>
+            <h4 className = "current-user"> User Logged In:  </h4>
+            <h3 className = "current-user">{user?.email}</h3>
+            <button className = 'logout' onClick = {logout}>Logout</button>
         </div>
     )
 }

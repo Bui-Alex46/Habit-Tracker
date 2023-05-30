@@ -9,9 +9,9 @@ import {auth} from '../firebase';
 
 const Habit = () => {
     const habitsRef = useRef()
-    // Create a users collection
+
     // Reference a subcollection under unique userId
-    const userDocRef = doc(firestore, 'users', auth.currentUser.uid)
+    const userDocRef = auth.currentUser && doc(firestore, 'users', auth.currentUser.uid)
     // Create a new collection called habits
     const usersHabitsRef = collection(userDocRef, 'habits')
     // SubCollection of habits under the user collection
@@ -58,7 +58,7 @@ const Habit = () => {
         setSelectedHabit(habit);
     }
     
-    const clodeModal = () => {
+    const closeModal = () => {
         setSelectedHabit(null)
     }
 
@@ -78,12 +78,12 @@ const Habit = () => {
                 ))}
             </ul>
             {/* Modal displaying a calendar when a new habit created */}
-            <Modal isOpen = {selectedHabit !== null} onRequestClose = {clodeModal} contentLabel = "Habit Modal">
-                {selectedHabit && <h1>{selectedHabit}</h1>}
+            <Modal isOpen = {selectedHabit !== null} onRequestClose = {closeModal} contentLabel = "Habit Modal">
+                {selectedHabit && <h1>{selectedHabit.habit}</h1>}
                 <div> Did you {selectedHabit} today?</div>
                 <button>Remove Habit</button>
                 <div className="calendar-wrapper">
-                    <Calendar />
+                    <Calendar selectedHabit = {selectedHabit} />
                 </div>
 
             </Modal>

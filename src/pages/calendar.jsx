@@ -1,11 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./calendar.css";
+import {doc, collection, getDoc, addDoc} from "firebase/firestore";
+import {firestore, auth} from "../firebase"
 
-const Calendar = () => {
+const Calendar = (props) => {
+  const {selectedHabit} = props
   const [date, setDate] = useState(new Date());
   const [selectedCell, setSelectedCell] = useState(null);
   const [cellState, setCellState] = useState({});
 
+ 
+
+
+  const fetchResponses = useCallback(async () => {
+    if (!selectedHabit) return;
+
+    try {
+      const habitDocRef = doc(
+        firestore,
+        "users",
+        auth.currentUser.uid,
+        "habits",
+        selectedHabit
+      );
+      const habitDocSnapshot = await getDoc(habitDocRef);
+
+      if (habitDocSnapshot.exists()) {
+        const habitData = habitDocSnapshot.data();
+        if (habitData.responses) {
+          const responses = habitData.responses;
+          const updatedCellState = { };
+          Object.keys(responses).forEach((responseDate) => {
+            updatedCellState[responseDate] = responses[responseDate].value;
+          });
+          setCellState(updatedCellState);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching responses:", error);
+    }
+  }, [selectedHabit, cellState]);
+
+  useEffect(() => {
+    fetchResponses();
+  }, [fetchResponses]);
+
+  
   const months = [
     "January", "February", "March", "April",
     "May", "June", "July", "August",
@@ -29,22 +69,48 @@ const Calendar = () => {
     setSelectedCell(day);
   };
 
-  const handleYesClick = () => {
-    setCellState((prevCellState) => ({
-      ...prevCellState,
-      [selectedCell]: "yes"
-    }));
+  const handleYesClick = async () => {
+    if (selectedCell !== null) {
+      const updatedCellState = { ...cellState, [selectedCell]: "yes" };
+      setCellState(updatedCellState);
+  
+      if (selectedHabit) {
+        try {
+          const uniqueHabitDocRef = doc(firestore, "users", auth.currentUser.uid, "habits", selectedHabit);
+          const habitResponseRef = collection(uniqueHabitDocRef, "responses");
+          const newResponse = {
+            date: selectedCell, // Assuming selectedCell is in the format you want to store the date
+            value: "yes",
+          };
+          await addDoc(habitResponseRef, newResponse);
+        } catch (error) {
+          console.error("Error updating responses:", error);
+        }
+      }
+    }
     setSelectedCell(null);
   };
-
-  const handleNoClick = () => {
-    setCellState((prevCellState) => ({
-      ...prevCellState,
-      [selectedCell]: "no"
-    }));
+  const handleNoClick = async () => {
+    if (selectedCell !== null) {
+      const updatedCellState = { ...cellState, [selectedCell]: "no" };
+      setCellState(updatedCellState);
+  
+      if (selectedHabit) {
+        try {
+          const uniqueHabitDocRef = doc(firestore, "users", auth.currentUser.uid, "habits", selectedHabit);
+          const habitResponseRef = collection(uniqueHabitDocRef, "responses");
+          const newResponse = {
+            date: selectedCell, // Assuming selectedCell is in the format you want to store the date
+            value: "no",
+          };
+          await addDoc(habitResponseRef, newResponse);
+        } catch (error) {
+          console.error("Error updating responses:", error);
+        }
+      }
+    }
     setSelectedCell(null);
   };
-
   return (
     <div className="calendar-container">
       <div className="calendar-header">

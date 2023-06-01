@@ -14,9 +14,6 @@ const Habit = () => {
     const userDocRef = auth.currentUser && doc(firestore, 'users', auth.currentUser.uid)
     // Create a new collection called habits
     const usersHabitsRef = collection(userDocRef, 'habits')
-    // SubCollection of habits under the user collection
-   
-
     // Create a state for the user's habits
     const [habitList, setHabitList] = useState([])
     // State for modal

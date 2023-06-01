@@ -8,10 +8,7 @@ const Calendar = (props) => {
   const [date, setDate] = useState(new Date());
   const [selectedCell, setSelectedCell] = useState(null);
   const [cellState, setCellState] = useState({});
-
- 
-
-
+  const [monthCellState, setMonthCellState] = useState({});
   const fetchResponses = useCallback(async () => {
     if (!selectedHabit) return;
 
@@ -29,21 +26,37 @@ const Calendar = (props) => {
         const habitData = habitDocSnapshot.data();
         if (habitData.responses) {
           const responses = habitData.responses;
-          const updatedCellState = { };
+          const updatedCellState = {...cellState};
           Object.keys(responses).forEach((responseDate) => {
             updatedCellState[responseDate] = responses[responseDate].value;
           });
           setCellState(updatedCellState);
+          localStorage.setItem(`cellState-${selectedHabit}`, JSON.stringify(updatedCellState));
         }
       }
+      
     } catch (error) {
       console.error("Error fetching responses:", error);
     }
   }, [selectedHabit, cellState]);
 
+
   useEffect(() => {
+    const storedCellState = localStorage.getItem(`cellState-${selectedHabit}`);
+    if(storedCellState){
+      setCellState(JSON.parse(storedCellState));
+    }
+  }, [selectedHabit])
+
+  useEffect(() => {
+    const storedCellState = localStorage.getItem(`cellState-${selectedHabit}`);
+    if(storedCellState){
+      setCellState(JSON.parse(storedCellState));
+    }
     fetchResponses();
-  }, [fetchResponses]);
+  }, [selectedHabit, cellState, fetchResponses]);
+
+ 
 
   
   const months = [
@@ -62,11 +75,29 @@ const Calendar = (props) => {
   };
 
   const handleNextMonth = () => {
-    setDate(new Date(date.getFullYear(), date.getMonth() + 1, 1));
+    const newDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+    setDate(newDate);
+    setSelectedCell(null);
+    setMonthCellState({});
   };
+  // UseEFfect to display the selected cell from local storage 
+  // and update the cellState to empty
+  useEffect(() => {
+    const newMonth = `${date.getFullYear()}-${date.getMonth()}`;
+    const storedCellState = localStorage.getItem(`cellState-${selectedHabit}`);
+    if (storedCellState) {
+      setCellState(JSON.parse(storedCellState));
+    } else {
+      setCellState({});
+    }
+  }, [selectedHabit, date]);
+  
+
+
 
   const handleCellClick = (day) => {
     setSelectedCell(day);
+   
   };
 
   const handleYesClick = async () => {
@@ -83,6 +114,8 @@ const Calendar = (props) => {
             value: "yes",
           };
           await addDoc(habitResponseRef, newResponse);
+          localStorage.setItem(`cellState-${selectedHabit}`, JSON.stringify(updatedCellState));
+          await fetchResponses();
         } catch (error) {
           console.error("Error updating responses:", error);
         }
@@ -104,6 +137,8 @@ const Calendar = (props) => {
             value: "no",
           };
           await addDoc(habitResponseRef, newResponse);
+          localStorage.setItem(`cellState-${selectedHabit}`, JSON.stringify(updatedCellState));
+          await fetchResponses();
         } catch (error) {
           console.error("Error updating responses:", error);
         }
@@ -111,6 +146,13 @@ const Calendar = (props) => {
     }
     setSelectedCell(null);
   };
+
+  // UseEFfect to display the selected cell from local storage
+  useEffect(() => {
+    setSelectedCell(null);
+    setCellState({});
+  }, [date]);
+  
   return (
     <div className="calendar-container">
       <div className="calendar-header">
@@ -177,5 +219,7 @@ const Calendar = (props) => {
     </div>
   );
 };
+
+
 
 export default Calendar;

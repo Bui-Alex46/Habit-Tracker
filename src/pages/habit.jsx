@@ -18,6 +18,8 @@ const Habit = () => {
     const [habitList, setHabitList] = useState([])
     // State for modal
     const[selectedHabit, setSelectedHabit] = useState(null);
+
+
     
     useEffect(() => {
         const fetchHabits = async() => {
@@ -69,7 +71,7 @@ const Habit = () => {
                 <button type = 'submit'> + New Habit</button>
             </form>
             {/* Display the list of habits */}
-            <ul >
+            <ul className='habit-list'>
                 {habitList.map((habit) => (
                     <li className = 'newHabit' key = {habit.id} onClick = {() => openModal(habit.habit)}>{habit.habit}</li>
                 ))}

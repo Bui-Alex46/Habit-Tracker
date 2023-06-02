@@ -36,6 +36,7 @@
     width: 100%;
     margin-right:0;
     margin-left:0;
+    
   }
   
   .submitForm label {
@@ -72,4 +73,19 @@
     /* Add any additional styles for the calendar container here */
     margin: auto;
   }
+  .habit-list {
+    animation: slide-in 0.5s ease-out forwards; /* add an animation to the ul element */
+  }
+  
+  @keyframes slide-in {
+    from {
+      transform: translateX(-100%); /* move the ul off-screen to the left */
+      opacity: 0; /* set the opacity to 0 */
+    }
+    to {
+      transform: translateX(0); /* move the ul back on-screen */
+      opacity: 1; /* set the opacity to 1 */
+    }
+  }
+  
   

@@ -5,16 +5,24 @@
 }
 
 
-.navBar{
+.navBar {
+  display: flex; /* make the navbar a flex container */
+  justify-content: center; /* center the items horizontally */
+  align-items: center; /* center the items vertically */
+  list-style-type: none; /* remove the bullet points */
+  margin: 0; /* remove any default margins */
+  padding: 0; /* remove any default padding */
+}
+
+.navBar li {
+  margin: 0 5rem; /* remove any default margins */
+}
+
+.navBar li a {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 50%;
-  /* Get rid of bullet points */
-  list-style-type: none;
-  /* center items in the middle of page */
-  margin: 0 auto;
+  align-items: center; /* center the link vertically */
+  justify-content: center; /* center the link horizontally */
+
   font-size: 20px;
-  /* Get rid of underline link*/
   text-decoration: none;
 }

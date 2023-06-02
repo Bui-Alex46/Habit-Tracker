@@ -64,7 +64,12 @@ const Authentication = () => {
         <div className='auth-background'>
             {/* Create user signup */}
             <div className = "register">
-                <h3 > Register</h3>
+                <div className = "header-title">
+                <h1> Track, Improve, Excel </h1>
+               
+                </div>
+                
+                <h3 > Register Now</h3>
                 <input className = "register-input" placeholder="Email" onChange = {(e) => setRegisterEmail(e.target.value)}></input>
                 <input className = "register-input" placeholder="Password" onChange = {(e) => setRegisterPassword(e.target.value)}></input>
                 <button  className = "register-input"onClick = {register}>Create an account</button>

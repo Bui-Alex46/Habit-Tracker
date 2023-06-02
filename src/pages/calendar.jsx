@@ -9,6 +9,7 @@ const Calendar = (props) => {
   const [selectedCell, setSelectedCell] = useState(null);
   const [cellState, setCellState] = useState({});
   const [monthCellState, setMonthCellState] = useState({});
+  const [completedCount, setCompletedCount] = useState(0);
   const fetchResponses = useCallback(async () => {
     if (!selectedHabit) return;
 
@@ -56,7 +57,12 @@ const Calendar = (props) => {
     fetchResponses();
   }, [selectedHabit, cellState, fetchResponses]);
 
- 
+//  Display the number of times user says yes:
+useEffect(() => {
+  const completedKeys = Object.values(cellState).filter((value) => value === "yes")
+  setCompletedCount(completedKeys.length);
+}, [cellState, date]);
+
 
   
   const months = [
@@ -71,27 +77,61 @@ const Calendar = (props) => {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const handlePrevMonth = () => {
-    setDate(new Date(date.getFullYear(), date.getMonth() - 1, 1));
+    const newDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+    setDate(newDate);
+    setSelectedCell(null);
+    const newMonth = `${newDate.getFullYear()}-${newDate.getMonth()}`;
+    const storedMonthCellState = localStorage.getItem(`monthCellState-${selectedHabit}`);
+    if (storedMonthCellState) {
+      setMonthCellState(JSON.parse(storedMonthCellState)[newMonth] || {});
+    } else {
+      setMonthCellState({});
+    }
+    const storedCellState = localStorage.getItem(`cellState-${selectedHabit}-${newMonth}`);
+    if (storedCellState) {
+      // Only set the cell state for cells that were filled out in the previous month and already exist in localStorage
+      const parsedCellState = JSON.parse(storedCellState);
+      const newState = {};
+      Object.keys(parsedCellState).forEach((key) => {
+        const [cellMonth] = key.split("-");
+        if (cellMonth === newMonth) {
+          newState[key] = parsedCellState[key];
+        }
+      });
+      setCellState(newState);
+    } else {
+      setCellState({});
+    }
+    localStorage.setItem(`monthCellState-${selectedHabit}`, JSON.stringify({[newMonth]: monthCellState}));
+    localStorage.setItem(`cellState-${selectedHabit}-${newMonth}`, JSON.stringify(cellState));
   };
+  
+  
 
   const handleNextMonth = () => {
     const newDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
     setDate(newDate);
     setSelectedCell(null);
-    setMonthCellState({});
-  };
-  // UseEFfect to display the selected cell from local storage 
-  // and update the cellState to empty
-  useEffect(() => {
-    const newMonth = `${date.getFullYear()}-${date.getMonth()}`;
-    const storedCellState = localStorage.getItem(`cellState-${selectedHabit}`);
-    if (storedCellState) {
-      setCellState(JSON.parse(storedCellState));
+    const newMonth = `${newDate.getFullYear()}-${newDate.getMonth()}`;
+    const storedMonthCellState = localStorage.getItem(`monthCellState-${selectedHabit}`);
+    if (storedMonthCellState) {
+      setMonthCellState(JSON.parse(storedMonthCellState)[newMonth] || {});
     } else {
-      setCellState({});
+      setMonthCellState({});
     }
-  }, [selectedHabit, date]);
-  
+    setCellState((prevState) => {
+      const newState = {};
+      Object.keys(prevState).forEach((key) => {
+        const [cellMonth] = key.split("-");
+        if (cellMonth === newMonth) {
+          newState[key] = prevState[key];
+        }
+      });
+      return newState;
+    });
+    localStorage.setItem(`cellState-${selectedHabit}`, JSON.stringify({}));
+  };
+
 
 
 
@@ -214,8 +254,10 @@ const Calendar = (props) => {
           <h2>Did you do your habit this day?</h2>
           <button onClick={handleYesClick}>Yes</button>
           <button onClick={handleNoClick}>No</button>
+          
         </div>
       )}
+      <h3> You've completed your habit {completedCount} times!</h3>
     </div>
   );
 };

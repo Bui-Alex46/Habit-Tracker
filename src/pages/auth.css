@@ -4,6 +4,7 @@
     justify-content: center;
     padding-top: 20px;
     align-items:center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 .register{
     display: flex;
@@ -67,8 +68,18 @@
     justify-content: baseline;
     font-size: 15px;
     font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 .logout:hover{
     cursor: pointer;
     opacity: calc(1 - 0.5);
+}
+.header-title h1{
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: white;
+    font-weight: lighter;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }

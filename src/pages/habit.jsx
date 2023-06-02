@@ -78,7 +78,6 @@ const Habit = () => {
             <Modal isOpen = {selectedHabit !== null} onRequestClose = {closeModal} contentLabel = "Habit Modal">
                 {selectedHabit && <h1>{selectedHabit.habit}</h1>}
                 <div> Did you {selectedHabit} today?</div>
-                <button>Remove Habit</button>
                 <div className="calendar-wrapper">
                     <Calendar selectedHabit = {selectedHabit} />
                 </div>

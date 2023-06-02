@@ -62,13 +62,12 @@ const Authentication = () => {
     };
     return (
         <div className='auth-background'>
-            {/* Create user signup */}
-            <div className = "register">
-                <div className = "header-title">
+            <div className = "header-title">
                 <h1> Track, Improve, Excel </h1>
-               
-                </div>
-                
+            </div>
+            <div className='auth-container'>
+                {/* Create user signup */}
+            <div className = "register">
                 <h3 > Register Now</h3>
                 <input className = "register-input" placeholder="Email" onChange = {(e) => setRegisterEmail(e.target.value)}></input>
                 <input className = "register-input" placeholder="Password" onChange = {(e) => setRegisterPassword(e.target.value)}></input>
@@ -86,6 +85,8 @@ const Authentication = () => {
             <h4 className = "current-user"> User Logged In:  </h4>
             <h3 className = "current-user">{user?.email}</h3>
             <button className = 'logout' onClick = {logout}>Logout</button>
+            </div>
+            
         </div>
     )
 }

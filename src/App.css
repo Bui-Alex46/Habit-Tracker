@@ -12,6 +12,7 @@
   list-style-type: none; /* remove the bullet points */
   margin: 0; /* remove any default margins */
   padding: 0; /* remove any default padding */
+  
 }
 
 .navBar li {
@@ -22,7 +23,13 @@
   display: flex;
   align-items: center; /* center the link vertically */
   justify-content: center; /* center the link horizontally */
-
+  color: white;
+  font-weight: bold;
   font-size: 20px;
   text-decoration: none;
+}
+.navBar li a:hover{
+  cursor:pointer;
+  opacity: 0.4;
+  color: grey;
 }

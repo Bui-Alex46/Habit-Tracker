@@ -21,6 +21,5 @@ utilized React.js for the front-end UI and Firestore as the backend services.
  * Deployed an application to the web, using Firebase Hosting services
 
 ## Link to Site:
-
-### `https://habittracker-3d266.web.app/`
+ [Habit-Tracker-App](https://habittracker-3d266.web.app/)
 

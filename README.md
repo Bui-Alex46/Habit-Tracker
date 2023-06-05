@@ -12,7 +12,7 @@ This project was created with the following tools:
 ## Project Objective
 Created an application that is personally useful! This app allows users to create an account
 with the site, and lets them keep a track record of their completed habits for the month!
-utilized React.js for the front-end UI and Firestore as the backend services.
+Utilized React.js for the front-end UI and Firestore as the backend services.
 
 
 ## Learning Objectives:
